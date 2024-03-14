@@ -1,9 +1,5 @@
 import React from 'react';
-import Countdown, {
-    CountdownApi,
-    CountdownTimeDelta,
-    calcTimeDelta,
-} from 'react-countdown';
+import Countdown, { CountdownApi, CountdownTimeDelta } from 'react-countdown';
 import { Button } from '@rmwc/button';
 import { IconButton } from '@rmwc/icon-button';
 
@@ -20,7 +16,7 @@ const renderer = ({
 }: CountdownTimeDelta): React.ReactElement => {
     const secondsString = seconds < 10 ? `0${seconds}` : seconds;
     return (
-        <p className="timer">
+        <p className="timer-string">
             {hours ? `${hours}:` : ''}
             {minutes}:{secondsString}
         </p>
@@ -81,10 +77,7 @@ export const StyledCountdown = ({
     };
 
     const addFiveMinutes = (): void => {
-        if (!countdownApi) return;
-        const { total, minutes, seconds } = calcTimeDelta(countdownDate);
-        console.log(minutes, seconds);
-        setCountdownDate(Date.now() + total + FIVE_MINUTES_MS);
+        setCountdownDate(countdownDate + FIVE_MINUTES_MS);
         // TODO we seem to lose a second or two??
     };
 
@@ -99,12 +92,18 @@ export const StyledCountdown = ({
                     onComplete={handleComplete}
                 />
 
-                <IconButton
-                    icon={'play_circle_outline'}
-                    onClick={handleStart}
-                    alt="Start"
-                />
-                <IconButton icon={'replay'} onClick={handleReset} alt="Reset" />
+                <div className="controls">
+                    <IconButton
+                        icon={'play_circle_outline'}
+                        onClick={handleStart}
+                        alt="Start"
+                    />
+                    <IconButton
+                        icon={'replay'}
+                        onClick={handleReset}
+                        alt="Reset"
+                    />
+                </div>
 
                 {completed && <p>Time's up!</p>}
             </div>

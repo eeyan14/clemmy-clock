@@ -1,15 +1,20 @@
-button.icon {
-    margin: 8px;
-    box-sizing: border-box;
-}
-
 .countdown-container {
+    position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
+    border: 1px solid #b9b9b9;
+    border-radius: 4px;
+    margin: 32px 0;
 }
 
-.timer {
+.countdown-container .controls {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+}
+
+.timer-string {
     font-size: 5rem;
     margin: 24px 0;
-    width: 16rem;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyledCountdown } from './components/Countdown';
 import { CustomizeTimes, TimerPresetsType } from './components/CustomizeTimes';
+import { SetIntention } from './components/SetIntention';
 
 /* third-party library imports */
 import { Button } from '@rmwc/button';
@@ -27,8 +28,9 @@ const App = (): React.ReactElement => {
     );
 
     const handleSetCustomTimes = (presets: TimerPresetsType): void => {
-        setTimerPresets(presets);
+        // store new presets in localStorage so that it persists across page reloads
         localStorage.setItem('timerPresets', JSON.stringify(presets));
+        setTimerPresets(presets);
     };
 
     return (
@@ -64,6 +66,7 @@ const App = (): React.ReactElement => {
                     <StyledCountdown
                         timerMinutes={timerPresets[selectedPreset]}
                     />
+                    <SetIntention />
                 </section>
             </main>
         </div>
