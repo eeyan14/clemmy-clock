@@ -1,6 +1,7 @@
 import React from 'react';
 import { IconButton } from '@rmwc/icon-button';
 import { Radio } from '@rmwc/radio';
+import { Switch } from '@rmwc/switch';
 import useSound from 'use-sound';
 
 import { sounds } from '../sounds';
@@ -8,6 +9,7 @@ import { sounds } from '../sounds';
 import './Settings.css';
 import '@rmwc/icon-button/styles';
 import '@rmwc/radio/styles';
+import '@rmwc/switch/styles';
 
 const SoundOption = (props: {
     label: string;
@@ -45,7 +47,9 @@ const SoundOption = (props: {
 
 export const Settings = (props: {
     selectedSound: string;
+    shouldPlay: boolean;
     setSound: (sound: string) => void;
+    setShouldPlay: (shouldPlay: boolean) => void;
 }): React.ReactElement => {
     const { sound1, sound2, sound3, sound4, sound5 } = sounds;
     const [playSound1, { stop: stopSound1 }] = useSound(sound1);
@@ -56,50 +60,55 @@ export const Settings = (props: {
 
     return (
         <div className="settings-page">
-            <label>Select sound when timer is up:</label>
-            <SoundOption
-                label="Sound 1"
-                sound={sound1}
-                selected={props.selectedSound === sound1}
-                play={playSound1}
-                stop={stopSound1}
-                onChange={props.setSound}
+            <label className="timer-fx">Timer FX:</label>
+            <Switch
+                checked={props.shouldPlay}
+                onClick={() => props.setShouldPlay(!props.shouldPlay)}
             />
-            <SoundOption
-                label="Sound 2"
-                sound={sound2}
-                selected={props.selectedSound === sound2}
-                play={playSound2}
-                stop={stopSound2}
-                onChange={props.setSound}
-            />
-            <SoundOption
-                label="Sound 3"
-                sound={sound3}
-                selected={props.selectedSound === sound3}
-                play={playSound3}
-                stop={stopSound3}
-                onChange={props.setSound}
-            />
-            <SoundOption
-                label="Sound 4"
-                sound={sound4}
-                selected={props.selectedSound === sound4}
-                play={playSound4}
-                stop={stopSound4}
-                onChange={props.setSound}
-            />
-            <SoundOption
-                label="Sound 5"
-                sound={sound5}
-                selected={props.selectedSound === sound5}
-                play={playSound5}
-                stop={stopSound5}
-                onChange={props.setSound}
-            />
-            <div className="option-row">
-                <Radio label={'No sound'} />
-            </div>
+            {props.shouldPlay && (
+                <>
+                    <SoundOption
+                        label="Sound 1"
+                        sound={sound1}
+                        selected={props.selectedSound === sound1}
+                        play={playSound1}
+                        stop={stopSound1}
+                        onChange={props.setSound}
+                    />
+                    <SoundOption
+                        label="Sound 2"
+                        sound={sound2}
+                        selected={props.selectedSound === sound2}
+                        play={playSound2}
+                        stop={stopSound2}
+                        onChange={props.setSound}
+                    />
+                    <SoundOption
+                        label="Sound 3"
+                        sound={sound3}
+                        selected={props.selectedSound === sound3}
+                        play={playSound3}
+                        stop={stopSound3}
+                        onChange={props.setSound}
+                    />
+                    <SoundOption
+                        label="Sound 4"
+                        sound={sound4}
+                        selected={props.selectedSound === sound4}
+                        play={playSound4}
+                        stop={stopSound4}
+                        onChange={props.setSound}
+                    />
+                    <SoundOption
+                        label="Sound 5"
+                        sound={sound5}
+                        selected={props.selectedSound === sound5}
+                        play={playSound5}
+                        stop={stopSound5}
+                        onChange={props.setSound}
+                    />
+                </>
+            )}
         </div>
     );
 };

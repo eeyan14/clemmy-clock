@@ -25,11 +25,13 @@ const renderer = ({
 };
 
 type StyledCountdownProps = {
+    shouldPlaySound: boolean;
     timerMinutes: number;
     timerCompleteSound: string;
 };
 
 export const StyledCountdown = ({
+    shouldPlaySound,
     timerMinutes,
     timerCompleteSound,
 }: StyledCountdownProps): React.ReactElement => {
@@ -69,7 +71,9 @@ export const StyledCountdown = ({
     const handleComplete = (): void => {
         setCompleted(true);
         setIsRunning(false);
-        play();
+        if (shouldPlaySound) {
+            play();
+        }
     };
 
     const handleReset = (): void => {
@@ -79,7 +83,9 @@ export const StyledCountdown = ({
         setCompleted(false);
         setIsRunning(false);
         setCountdownDate(Date.now() + timerMilliseconds);
-        stopSound();
+        if (shouldPlaySound) {
+            stopSound();
+        }
     };
 
     const addFiveMinutes = (): void => {

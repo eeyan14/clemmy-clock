@@ -19,6 +19,7 @@ const TIMER_DEFAULTS: TimerPresetsType = {
 };
 
 export const MainPage = (props: {
+    shouldPlaySound: boolean;
     timerCompleteSound: string;
 }): React.ReactElement => {
     const [selectedPreset, setSelectedPreset] =
@@ -68,6 +69,7 @@ export const MainPage = (props: {
                     onSave={handleSetCustomTimes}
                 />
                 <StyledCountdown
+                    shouldPlaySound={props.shouldPlaySound}
                     timerMinutes={timerPresets[selectedPreset]}
                     timerCompleteSound={props.timerCompleteSound}
                 />

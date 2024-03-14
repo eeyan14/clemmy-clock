@@ -10,20 +10,29 @@ import './App.css';
 import '@rmwc/tabs/styles';
 
 const HOME_TAB = 0;
-const ABOUT_TAB = 1;
-const FAQ_TAB = 2;
+const FAQ_TAB = 1;
 const SETTINGS_TAB = 3;
 
 const App = (): React.ReactElement => {
-    const [activeTab, setActiveTab] = React.useState(HOME_TAB);
+    const [activeTab, setActiveTab] = React.useState(SETTINGS_TAB);
     const [timerCompleteSound, setTimerCompleteSound] = React.useState(() => {
         const savedSound = localStorage.getItem('timerCompleteSound');
         return savedSound ? savedSound : sounds.sound1;
+    });
+    const [shouldPlay, setShouldPlay] = React.useState(() => {
+        const savedSetting = localStorage.getItem('shouldPlay');
+        return savedSetting ? savedSetting === 'true' : true;
     });
 
     const setSound = (sound: string) => {
         localStorage.setItem('timerCompleteSound', sound);
         setTimerCompleteSound(sound);
+    };
+
+    const handleSetShouldPlay = (shouldPlay: boolean) => {
+        console.log('setting', shouldPlay);
+        localStorage.setItem('shouldPlay', shouldPlay.toString());
+        setShouldPlay(shouldPlay);
     };
 
     return (
@@ -35,7 +44,6 @@ const App = (): React.ReactElement => {
                         onActivate={(e) => setActiveTab(e.detail.index)}
                     >
                         <Tab>Home</Tab>
-                        <Tab>About</Tab>
                         <Tab>FAQ</Tab>
                         <Tab>Settings</Tab>
                     </TabBar>
@@ -43,14 +51,18 @@ const App = (): React.ReactElement => {
                     {/*<p className="cookie-counter">Cookie counter: 0</p>*/}
                 </div>
                 {activeTab === HOME_TAB && (
-                    <MainPage timerCompleteSound={timerCompleteSound} />
+                    <MainPage
+                        timerCompleteSound={timerCompleteSound}
+                        shouldPlaySound={shouldPlay}
+                    />
                 )}
-                {activeTab === ABOUT_TAB && <p>Coming soon</p>}
                 {activeTab === FAQ_TAB && <p>Coming soon</p>}
                 {activeTab === SETTINGS_TAB && (
                     <Settings
                         selectedSound={timerCompleteSound}
                         setSound={setSound}
+                        shouldPlay={shouldPlay}
+                        setShouldPlay={handleSetShouldPlay}
                     />
                 )}
             </main>
