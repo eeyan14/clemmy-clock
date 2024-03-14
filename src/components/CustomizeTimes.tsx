@@ -50,7 +50,6 @@ export const CustomizeTimes = ({
         e: React.ChangeEvent<HTMLSelectElement>,
         key: keyof TimerPresetsType
     ) => {
-        console.log('e?', e);
         setValues({ ...values, [key]: parseInt(e.target.value) });
     };
 

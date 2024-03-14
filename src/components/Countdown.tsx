@@ -1,4 +1,5 @@
 import React from 'react';
+import useSound from 'use-sound';
 import Countdown, { CountdownApi, CountdownTimeDelta } from 'react-countdown';
 import { Button } from '@rmwc/button';
 import { IconButton } from '@rmwc/icon-button';
@@ -25,10 +26,12 @@ const renderer = ({
 
 type StyledCountdownProps = {
     timerMinutes: number;
+    timerCompleteSound: string;
 };
 
 export const StyledCountdown = ({
     timerMinutes,
+    timerCompleteSound,
 }: StyledCountdownProps): React.ReactElement => {
     const [completed, setCompleted] = React.useState(false);
     const [isRunning, setIsRunning] = React.useState(false);
@@ -40,6 +43,7 @@ export const StyledCountdown = ({
     );
     const [countdownApi, setCountdownApi] =
         React.useState<CountdownApi | null>();
+    const [play, { stop: stopSound }] = useSound(timerCompleteSound);
 
     const countdownRef = (countdown: Countdown | null) => {
         if (countdown) {
@@ -50,11 +54,11 @@ export const StyledCountdown = ({
     React.useEffect(() => {
         // if timerMinutes prop changes, stop the clock and reset the countdown
         if (!countdownApi) return;
-        countdownApi.stop();
         const newTimerMilliseconds = timerMinutes * 60 * 1000;
         setTimerMilliseconds(newTimerMilliseconds);
         setCountdownDate(Date.now() + newTimerMilliseconds);
-    }, [timerMinutes]);
+        handleReset();
+    }, [timerMinutes, countdownApi]);
 
     const handleStart = (): void => {
         if (!countdownApi) return;
@@ -65,6 +69,7 @@ export const StyledCountdown = ({
     const handleComplete = (): void => {
         setCompleted(true);
         setIsRunning(false);
+        play();
     };
 
     const handleReset = (): void => {
@@ -74,6 +79,7 @@ export const StyledCountdown = ({
         setCompleted(false);
         setIsRunning(false);
         setCountdownDate(Date.now() + timerMilliseconds);
+        stopSound();
     };
 
     const addFiveMinutes = (): void => {

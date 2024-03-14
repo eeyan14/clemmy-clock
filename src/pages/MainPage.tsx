@@ -18,7 +18,9 @@ const TIMER_DEFAULTS: TimerPresetsType = {
     longBreak: 15,
 };
 
-export const MainPage = (): React.ReactElement => {
+export const MainPage = (props: {
+    timerCompleteSound: string;
+}): React.ReactElement => {
     const [selectedPreset, setSelectedPreset] =
         React.useState<keyof TimerPresetsType>('pomodoro');
     const [timerPresets, setTimerPresets] = React.useState<TimerPresetsType>(
@@ -65,7 +67,10 @@ export const MainPage = (): React.ReactElement => {
                     presets={timerPresets}
                     onSave={handleSetCustomTimes}
                 />
-                <StyledCountdown timerMinutes={timerPresets[selectedPreset]} />
+                <StyledCountdown
+                    timerMinutes={timerPresets[selectedPreset]}
+                    timerCompleteSound={props.timerCompleteSound}
+                />
                 <SetIntention />
             </section>
         </div>
