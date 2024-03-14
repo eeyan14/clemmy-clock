@@ -5,42 +5,108 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    DialogButton
+    DialogButton,
 } from '@rmwc/dialog';
-import { Edit } from '@mui/icons-material';
+import { Select } from '@rmwc/select';
 
+import './CustomizeTimes.css';
 import '@rmwc/dialog/styles';
+import '@rmwc/select/styles';
 
-type CustomizeTimesProps = {
-    onSave: () => void;
+export type TimerPresetsType = {
+    pomodoro: number;
+    shortBreak: number;
+    longBreak: number;
 };
 
-export const CustomizeTimes = ({ onSave }: CustomizeTimesProps): React.ReactElement => {
+type CustomizeTimesProps = {
+    presets: TimerPresetsType;
+    onSave: (presets: TimerPresetsType) => void;
+};
+
+const TIME_OPTIONS_MINUTES = [
+    '5',
+    '10',
+    '15',
+    '20',
+    '25',
+    '30',
+    '35',
+    '40',
+    '45',
+    '50',
+    '55',
+    '60',
+];
+
+export const CustomizeTimes = ({
+    presets,
+    onSave,
+}: CustomizeTimesProps): React.ReactElement => {
     const [open, setOpen] = React.useState(false);
-    console.log("open...", open)
+    const [values, setValues] = React.useState<TimerPresetsType>(presets);
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLSelectElement>,
+        key: keyof TimerPresetsType
+    ) => {
+        console.log('e?', e);
+        setValues({ ...values, [key]: parseInt(e.target.value) });
+    };
+
+    const handleSave = () => {
+        onSave(values);
+        setOpen(false);
+    };
+
     return (
         <>
             <Dialog open={open} onClose={() => setOpen(false)}>
                 <DialogTitle>Customize Times</DialogTitle>
-                <DialogContent>Coming soon!</DialogContent>
+                <DialogContent className="customize-times-dialog">
+                    <Select
+                        enhanced
+                        label={'Pomodoro'}
+                        options={TIME_OPTIONS_MINUTES}
+                        value={values.pomodoro.toString()}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                            handleChange(e, 'pomodoro')
+                        }
+                    />
+                    <Select
+                        enhanced
+                        label={'Short Break'}
+                        options={TIME_OPTIONS_MINUTES}
+                        value={values.shortBreak.toString()}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                            handleChange(e, 'shortBreak')
+                        }
+                    />
+                    <Select
+                        enhanced
+                        label={'Long Break'}
+                        options={TIME_OPTIONS_MINUTES}
+                        value={values.longBreak.toString()}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                            handleChange(e, 'longBreak')
+                        }
+                    />
+                </DialogContent>
                 <DialogActions>
                     <DialogButton action="close">Cancel</DialogButton>
-                    <DialogButton action="accept" isDefaultAction onClick={onSave}>Save</DialogButton>
+                    <DialogButton
+                        action="accept"
+                        isDefaultAction
+                        onClick={handleSave}
+                    >
+                        Save
+                    </DialogButton>
                 </DialogActions>
             </Dialog>
 
-            {/*<div className="mdc-dialog mdc-dialog--open">
-                <DialogTitle>Customize Times</DialogTitle>
-                <DialogContent>Coming soon!</DialogContent>
-                <DialogActions>
-                    <DialogButton action="close">Cancel</DialogButton>
-                    <DialogButton action="accept" isDefaultAction onClick={onSave}>Save</DialogButton>
-                </DialogActions>
-    </div>*/}
-
             <Button onClick={() => setOpen(true)}>
-                <Edit />
+                <span className="material-icons">edit</span>
             </Button>
         </>
     );
-}
+};

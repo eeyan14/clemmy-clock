@@ -1,0 +1,11 @@
+.mdc-dialog__surface {
+    min-width: 30rem;
+    width: 60vw;
+    min-height: 34rem;
+    height: fit-content;
+}
+
+.rmwc-select__default-width {
+    width: 100% !important;
+    margin-bottom: 16px;
+}

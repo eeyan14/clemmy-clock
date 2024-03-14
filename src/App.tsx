@@ -1,9 +1,8 @@
 import React from 'react';
 import { StyledCountdown } from './components/Countdown';
-import { CustomizeTimes } from './components/CustomizeTimes';
+import { CustomizeTimes, TimerPresetsType } from './components/CustomizeTimes';
 
 /* third-party library imports */
-import { PersonOutline } from '@mui/icons-material';
 import { Button } from '@rmwc/button';
 
 /* style imports */
@@ -11,33 +10,64 @@ import './App.css';
 import '@rmwc/button/styles';
 import '@rmwc/dialog/styles';
 
-const TIMER_DEFAULTS = {
-    work: 20,
+const TIMER_DEFAULTS: TimerPresetsType = {
+    pomodoro: 20,
     shortBreak: 5,
     longBreak: 15,
-}
+};
 
 const App = (): React.ReactElement => {
-    const [timerMinutes, setTimerMinutes] = React.useState(TIMER_DEFAULTS.work);
+    const [selectedPreset, setSelectedPreset] =
+        React.useState<keyof TimerPresetsType>('pomodoro');
+    const [timerPresets, setTimerPresets] = React.useState<TimerPresetsType>(
+        () => {
+            const savedPresets = localStorage.getItem('timerPresets');
+            return savedPresets ? JSON.parse(savedPresets) : TIMER_DEFAULTS;
+        }
+    );
 
-    const handleSetCustomTimes = (): void => {
-        // TODO
-    }
+    const handleSetCustomTimes = (presets: TimerPresetsType): void => {
+        setTimerPresets(presets);
+        localStorage.setItem('timerPresets', JSON.stringify(presets));
+    };
 
     return (
         <div className="App">
             <main>
-                <PersonOutline />
+                <span className="material-icons">person_outline</span>
                 <section>
-                    <Button raised className="time-preset" onClick={() => setTimerMinutes(TIMER_DEFAULTS.work)}>Work</Button>
-                    <Button raised className="time-preset" onClick={() => setTimerMinutes(TIMER_DEFAULTS.shortBreak)}>Short Break</Button>
-                    <Button raised className="time-preset" onClick={() => setTimerMinutes(TIMER_DEFAULTS.longBreak)}>Long Break</Button>
-                    <CustomizeTimes onSave={handleSetCustomTimes} />
-                    <StyledCountdown timerMinutes={timerMinutes} />
+                    <Button
+                        raised
+                        className="time-preset"
+                        onClick={() => setSelectedPreset('pomodoro')}
+                    >
+                        Pomodoro
+                    </Button>
+                    <Button
+                        raised
+                        className="time-preset"
+                        onClick={() => setSelectedPreset('shortBreak')}
+                    >
+                        Short Break
+                    </Button>
+                    <Button
+                        raised
+                        className="time-preset"
+                        onClick={() => setSelectedPreset('longBreak')}
+                    >
+                        Long Break
+                    </Button>
+                    <CustomizeTimes
+                        presets={timerPresets}
+                        onSave={handleSetCustomTimes}
+                    />
+                    <StyledCountdown
+                        timerMinutes={timerPresets[selectedPreset]}
+                    />
                 </section>
             </main>
         </div>
-  );
-}
+    );
+};
 
 export default App;

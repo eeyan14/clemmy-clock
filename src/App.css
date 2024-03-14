@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     height: 100vh;
     width: 100vw;
 }
@@ -10,6 +9,7 @@
 main {
     display: grid;
     grid-template-columns: 1fr 2fr;
+    margin-top: 30vh;
 }
 
 button.time-preset {

@@ -1,7 +1,11 @@
 import React from 'react';
-import Countdown, { CountdownTimeDelta } from 'react-countdown';
-import { PlayCircleOutline, Replay } from '@mui/icons-material';
+import Countdown, {
+    CountdownApi,
+    CountdownTimeDelta,
+    calcTimeDelta,
+} from 'react-countdown';
 import { Button } from '@rmwc/button';
+import { IconButton } from '@rmwc/icon-button';
 
 import './Countdown.css';
 import '@rmwc/icon-button/styles';
@@ -9,10 +13,17 @@ import '@rmwc/icon-button/styles';
 const FIVE_MINUTES_MS = 5 * 60 * 1000;
 
 // renderer() must be a function, not a React component
-const renderer = ({ hours, minutes, seconds }: CountdownTimeDelta): React.ReactElement => {
+const renderer = ({
+    hours,
+    minutes,
+    seconds,
+}: CountdownTimeDelta): React.ReactElement => {
     const secondsString = seconds < 10 ? `0${seconds}` : seconds;
     return (
-        <p className="timer">{hours ? `${hours}:` : ''}{minutes}:{secondsString}</p>
+        <p className="timer">
+            {hours ? `${hours}:` : ''}
+            {minutes}:{secondsString}
+        </p>
     );
 };
 
@@ -20,65 +31,80 @@ type StyledCountdownProps = {
     timerMinutes: number;
 };
 
-export const StyledCountdown = ({ timerMinutes }: StyledCountdownProps): React.ReactElement => {
+export const StyledCountdown = ({
+    timerMinutes,
+}: StyledCountdownProps): React.ReactElement => {
     const [completed, setCompleted] = React.useState(false);
     const [isRunning, setIsRunning] = React.useState(false);
-    const [timerMilliseconds, setTimerMilliseconds] = React.useState(timerMinutes * 60 * 1000);
-    const countdownRef = React.useRef<Countdown>(null);
+    const [countdownDate, setCountdownDate] = React.useState(
+        Date.now() + timerMinutes * 60 * 1000
+    );
+    const [timerMilliseconds, setTimerMilliseconds] = React.useState(
+        timerMinutes * 60 * 1000
+    );
+    const [countdownApi, setCountdownApi] =
+        React.useState<CountdownApi | null>();
+
+    const countdownRef = (countdown: Countdown | null) => {
+        if (countdown) {
+            setCountdownApi(countdown.getApi());
+        }
+    };
 
     React.useEffect(() => {
         // if timerMinutes prop changes, stop the clock and reset the countdown
-        if (countdownRef.current) {
-            countdownRef.current.stop();
-            setTimerMilliseconds(timerMinutes * 60 * 1000);
-        }
-    }, [timerMinutes])
+        if (!countdownApi) return;
+        countdownApi.stop();
+        const newTimerMilliseconds = timerMinutes * 60 * 1000;
+        setTimerMilliseconds(newTimerMilliseconds);
+        setCountdownDate(Date.now() + newTimerMilliseconds);
+    }, [timerMinutes]);
 
     const handleStart = (): void => {
-        if (countdownRef.current) {
-            countdownRef.current.start();
-            setIsRunning(true);
-        }
-    }
+        if (!countdownApi) return;
+        countdownApi.start();
+        setIsRunning(true);
+    };
 
     const handleComplete = (): void => {
         setCompleted(true);
         setIsRunning(false);
-    }
+    };
 
     const handleReset = (): void => {
         // TODO do we stop the timer when we reset?
-        if (countdownRef.current) {
-            countdownRef.current.stop();
-            setCompleted(false);
-            setIsRunning(false);
-            setTimerMilliseconds(timerMinutes * 60 * 1000);
-        }
-    }
+        if (!countdownApi) return;
+        countdownApi.stop();
+        setCompleted(false);
+        setIsRunning(false);
+        setCountdownDate(Date.now() + timerMilliseconds);
+    };
 
     const addFiveMinutes = (): void => {
-        if (!countdownRef.current) return;
-        const { total } = countdownRef.current.calcTimeDelta();
-        setTimerMilliseconds(total + FIVE_MINUTES_MS);
-    }
+        if (!countdownApi) return;
+        const { total, minutes, seconds } = calcTimeDelta(countdownDate);
+        console.log(minutes, seconds);
+        setCountdownDate(Date.now() + total + FIVE_MINUTES_MS);
+        // TODO we seem to lose a second or two??
+    };
 
     return (
         <>
             <div className="countdown-container">
                 <Countdown
                     ref={countdownRef}
-                    date={Date.now() + timerMilliseconds}
+                    date={countdownDate}
                     autoStart={false}
                     renderer={renderer}
                     onComplete={handleComplete}
                 />
 
-                <Button onClick={handleStart} alt="Start">
-                    <PlayCircleOutline />
-                </Button>
-                <Button onClick={handleReset} alt="Reset">
-                    <Replay />
-                </Button>
+                <IconButton
+                    icon={'play_circle_outline'}
+                    onClick={handleStart}
+                    alt="Start"
+                />
+                <IconButton icon={'replay'} onClick={handleReset} alt="Reset" />
 
                 {completed && <p>Time's up!</p>}
             </div>
@@ -88,6 +114,5 @@ export const StyledCountdown = ({ timerMinutes }: StyledCountdownProps): React.R
                 </Button>
             )}
         </>
-
     );
 };
