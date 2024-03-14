@@ -1,5 +1,10 @@
 import React from 'react';
 import Countdown, { CountdownTimeDelta } from 'react-countdown';
+import { PlayCircleOutline, Replay } from '@mui/icons-material';
+import { Button } from '@rmwc/button';
+
+import './Countdown.css';
+import '@rmwc/icon-button/styles';
 
 const FIVE_MINUTES_MS = 5 * 60 * 1000;
 
@@ -7,9 +12,7 @@ const FIVE_MINUTES_MS = 5 * 60 * 1000;
 const renderer = ({ hours, minutes, seconds }: CountdownTimeDelta): React.ReactElement => {
     const secondsString = seconds < 10 ? `0${seconds}` : seconds;
     return (
-        <div>
-            <p>{hours ? `${hours}:` : ''}{minutes}:{secondsString}</p>
-        </div>
+        <p className="timer">{hours ? `${hours}:` : ''}{minutes}:{secondsString}</p>
     );
 };
 
@@ -43,6 +46,16 @@ export const StyledCountdown = ({ timerMinutes }: StyledCountdownProps): React.R
         setIsRunning(false);
     }
 
+    const handleReset = (): void => {
+        // TODO do we stop the timer when we reset?
+        if (countdownRef.current) {
+            countdownRef.current.stop();
+            setCompleted(false);
+            setIsRunning(false);
+            setTimerMilliseconds(timerMinutes * 60 * 1000);
+        }
+    }
+
     const addFiveMinutes = (): void => {
         if (!countdownRef.current) return;
         const { total } = countdownRef.current.calcTimeDelta();
@@ -50,21 +63,31 @@ export const StyledCountdown = ({ timerMinutes }: StyledCountdownProps): React.R
     }
 
     return (
-        <div>
-            <Countdown
-                ref={countdownRef}
-                date={Date.now() + timerMilliseconds}
-                autoStart={false}
-                renderer={renderer}
-                onComplete={handleComplete}
-            />
+        <>
+            <div className="countdown-container">
+                <Countdown
+                    ref={countdownRef}
+                    date={Date.now() + timerMilliseconds}
+                    autoStart={false}
+                    renderer={renderer}
+                    onComplete={handleComplete}
+                />
 
-            <button onClick={handleStart}>Start</button>
+                <Button onClick={handleStart} alt="Start">
+                    <PlayCircleOutline />
+                </Button>
+                <Button onClick={handleReset} alt="Reset">
+                    <Replay />
+                </Button>
+
+                {completed && <p>Time's up!</p>}
+            </div>
             {isRunning && (
-                <button onClick={addFiveMinutes}>Add 5 minutes</button>
+                <Button unelevated onClick={addFiveMinutes}>
+                    + Add 5 minutes
+                </Button>
             )}
+        </>
 
-            {completed && <p>Time's up!</p>}
-        </div>
     );
 };
