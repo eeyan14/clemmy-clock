@@ -3,6 +3,8 @@ import { StyledCountdown } from '../components/Countdown';
 import { CustomizeTimes, TimerPresetsType } from '../components/CustomizeTimes';
 import { SetIntention } from '../components/SetIntention';
 
+import clemmyExplore from '../images/clemmy-explore.png';
+
 /* third-party library imports */
 import { Button } from '@rmwc/button';
 
@@ -34,7 +36,9 @@ export const MainPage = (): React.ReactElement => {
 
     return (
         <div className="main-page">
-            <span className="material-icons">person_outline</span>
+            <div className="clemmy-icon-container">
+                <img src={clemmyExplore} />
+            </div>
             <section>
                 <Button
                     raised

@@ -28,7 +28,7 @@ const App = (): React.ReactElement => {
                         <Tab>Settings</Tab>
                     </TabBar>
 
-                    <p>Cookie counter: 0</p>
+                    {/*<p className="cookie-counter">Cookie counter: 0</p>*/}
                 </div>
                 {activeTab === HOME_TAB && <MainPage />}
                 {activeTab === ABOUT_TAB && <p>Coming soon</p>}
