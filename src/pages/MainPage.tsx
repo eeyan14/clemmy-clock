@@ -23,8 +23,10 @@ export const MainPage = (props: {
         const savedPresets = localStorage.getItem('timerPresets');
         return savedPresets ? JSON.parse(savedPresets) : TIMER_DEFAULTS;
     });
-    console.log('selected?', selectedPreset);
-    console.log('timerPresets', timerPresets);
+    const [devMode] = React.useState(() => {
+        const devMode = localStorage.getItem('devMode');
+        return devMode ? devMode === 'true' : false;
+    });
 
     return (
         <div className="main-page">
@@ -53,6 +55,15 @@ export const MainPage = (props: {
                 >
                     Long Break
                 </Button>
+                {devMode && (
+                    <Button
+                        raised
+                        className="time-preset"
+                        onClick={() => setSelectedPreset('devMode')}
+                    >
+                        Test (Dev)
+                    </Button>
+                )}
                 <StyledCountdown
                     shouldPlaySound={props.shouldPlaySound}
                     timerMinutes={timerPresets[selectedPreset]}

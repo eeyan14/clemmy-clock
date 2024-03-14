@@ -10,6 +10,7 @@ export type TimerPresetsType = {
     pomodoro: number;
     shortBreak: number;
     longBreak: number;
+    devMode: number;
 };
 
 export const CustomizeTimes = (): React.ReactElement => {

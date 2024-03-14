@@ -1,8 +1,12 @@
+.settings-page section {
+    margin-bottom: 24px;
+}
+
 .settings-page .option-row {
     display: flex;
     align-items: center;
 }
 
-.settings-page label.timer-fx {
+.settings-page label {
     margin-right: 16px;
 }

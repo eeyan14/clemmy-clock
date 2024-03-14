@@ -4,6 +4,7 @@ export const TIMER_DEFAULTS: TimerPresetsType = {
     pomodoro: 20,
     shortBreak: 5,
     longBreak: 15,
+    devMode: 0.05,
 };
 
 export const TIME_OPTIONS_MINUTES = [

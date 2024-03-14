@@ -30,7 +30,6 @@ const App = (): React.ReactElement => {
     };
 
     const handleSetShouldPlay = (shouldPlay: boolean) => {
-        console.log('setting', shouldPlay);
         localStorage.setItem('shouldPlay', shouldPlay.toString());
         setShouldPlay(shouldPlay);
     };

@@ -59,58 +59,76 @@ export const Settings = (props: {
     const [playSound4, { stop: stopSound4 }] = useSound(sound4);
     const [playSound5, { stop: stopSound5 }] = useSound(sound5);
 
+    const [devMode, setDevMode] = React.useState(() => {
+        const devMode = localStorage.getItem('devMode');
+        return devMode === 'true' || false;
+    });
+
+    const handleToggleDevMode = () => {
+        setDevMode(!devMode);
+        localStorage.setItem('devMode', (!devMode).toString());
+    };
+
     return (
         <div className="settings-page">
-            <CustomizeTimes />
-            <label className="timer-fx">Timer FX:</label>
-            <Switch
-                checked={props.shouldPlay}
-                onClick={() => props.setShouldPlay(!props.shouldPlay)}
-            />
-            {props.shouldPlay && (
-                <>
-                    <SoundOption
-                        label="Sound 1"
-                        sound={sound1}
-                        selected={props.selectedSound === sound1}
-                        play={playSound1}
-                        stop={stopSound1}
-                        onChange={props.setSound}
-                    />
-                    <SoundOption
-                        label="Sound 2"
-                        sound={sound2}
-                        selected={props.selectedSound === sound2}
-                        play={playSound2}
-                        stop={stopSound2}
-                        onChange={props.setSound}
-                    />
-                    <SoundOption
-                        label="Sound 3"
-                        sound={sound3}
-                        selected={props.selectedSound === sound3}
-                        play={playSound3}
-                        stop={stopSound3}
-                        onChange={props.setSound}
-                    />
-                    <SoundOption
-                        label="Sound 4"
-                        sound={sound4}
-                        selected={props.selectedSound === sound4}
-                        play={playSound4}
-                        stop={stopSound4}
-                        onChange={props.setSound}
-                    />
-                    <SoundOption
-                        label="Sound 5"
-                        sound={sound5}
-                        selected={props.selectedSound === sound5}
-                        play={playSound5}
-                        stop={stopSound5}
-                        onChange={props.setSound}
-                    />
-                </>
-            )}
+            <section>
+                <CustomizeTimes />
+            </section>
+            <section>
+                <label>Timer FX:</label>
+                <Switch
+                    checked={props.shouldPlay}
+                    onClick={() => props.setShouldPlay(!props.shouldPlay)}
+                />
+                {props.shouldPlay && (
+                    <>
+                        <SoundOption
+                            label="Sound 1"
+                            sound={sound1}
+                            selected={props.selectedSound === sound1}
+                            play={playSound1}
+                            stop={stopSound1}
+                            onChange={props.setSound}
+                        />
+                        <SoundOption
+                            label="Sound 2"
+                            sound={sound2}
+                            selected={props.selectedSound === sound2}
+                            play={playSound2}
+                            stop={stopSound2}
+                            onChange={props.setSound}
+                        />
+                        <SoundOption
+                            label="Sound 3"
+                            sound={sound3}
+                            selected={props.selectedSound === sound3}
+                            play={playSound3}
+                            stop={stopSound3}
+                            onChange={props.setSound}
+                        />
+                        <SoundOption
+                            label="Sound 4"
+                            sound={sound4}
+                            selected={props.selectedSound === sound4}
+                            play={playSound4}
+                            stop={stopSound4}
+                            onChange={props.setSound}
+                        />
+                        <SoundOption
+                            label="Sound 5"
+                            sound={sound5}
+                            selected={props.selectedSound === sound5}
+                            play={playSound5}
+                            stop={stopSound5}
+                            onChange={props.setSound}
+                        />
+                    </>
+                )}
+            </section>
+            <section>
+                <label>Dev mode:</label>
+                <Switch checked={devMode} onClick={handleToggleDevMode} />
+            </section>
         </div>
     );
 };

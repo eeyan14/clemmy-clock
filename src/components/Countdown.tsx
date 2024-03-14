@@ -48,7 +48,6 @@ export const StyledCountdown = ({
     const [play, { stop: stopSound }] = useSound(timerCompleteSound);
 
     React.useEffect(() => {
-        console.log('timerMinutes changed to', timerMinutes);
         // if timerMinutes prop changes, stop the clock and reset the countdown
         if (!countdownApi) return;
         const newTimerMilliseconds = timerMinutes * 60 * 1000;
@@ -82,7 +81,7 @@ export const StyledCountdown = ({
         countdownApi.stop();
         setCompleted(false);
         setIsRunning(false);
-        setCountdownDate(Date.now() + newTimerMilliseconds);
+        setCountdownDate(newTimerMilliseconds);
         if (shouldPlaySound) {
             stopSound();
         }
@@ -100,17 +99,20 @@ export const StyledCountdown = ({
     return (
         <>
             <div className="countdown-container">
-                <Countdown
-                    ref={countdownRef}
-                    date={countdownDate}
-                    autoStart={false}
-                    renderer={renderer}
-                    onComplete={handleComplete}
-                />
+                {completed && <p className="timer-string">Time's up!</p>}
+                {!completed && (
+                    <Countdown
+                        ref={countdownRef}
+                        date={countdownDate}
+                        autoStart={false}
+                        renderer={renderer}
+                        onComplete={handleComplete}
+                    />
+                )}
 
                 <div className="controls">
                     {isRunning && (
-                        <Button onClick={addFiveMinutes}>
+                        <Button className="add-time" onClick={addFiveMinutes}>
                             + Add 5 minutes
                         </Button>
                     )}
@@ -125,8 +127,6 @@ export const StyledCountdown = ({
                         alt="Reset"
                     />
                 </div>
-
-                {completed && <p>Time's up!</p>}
             </div>
         </>
     );
