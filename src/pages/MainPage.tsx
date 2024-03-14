@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyledCountdown } from '../components/Countdown';
-import { CustomizeTimes, TimerPresetsType } from '../components/CustomizeTimes';
+import { TimerPresetsType } from '../components/CustomizeTimes';
 import { SetIntention } from '../components/SetIntention';
+import { TIMER_DEFAULTS } from '../components/const';
 
 import clemmyExplore from '../images/clemmy-explore.png';
 
@@ -12,30 +13,18 @@ import { Button } from '@rmwc/button';
 import './MainPage.css';
 import '@rmwc/button/styles';
 
-const TIMER_DEFAULTS: TimerPresetsType = {
-    pomodoro: 20,
-    shortBreak: 5,
-    longBreak: 15,
-};
-
 export const MainPage = (props: {
     shouldPlaySound: boolean;
     timerCompleteSound: string;
 }): React.ReactElement => {
     const [selectedPreset, setSelectedPreset] =
         React.useState<keyof TimerPresetsType>('pomodoro');
-    const [timerPresets, setTimerPresets] = React.useState<TimerPresetsType>(
-        () => {
-            const savedPresets = localStorage.getItem('timerPresets');
-            return savedPresets ? JSON.parse(savedPresets) : TIMER_DEFAULTS;
-        }
-    );
-
-    const handleSetCustomTimes = (presets: TimerPresetsType): void => {
-        // store new presets in localStorage so that it persists across page reloads
-        localStorage.setItem('timerPresets', JSON.stringify(presets));
-        setTimerPresets(presets);
-    };
+    const [timerPresets] = React.useState<TimerPresetsType>(() => {
+        const savedPresets = localStorage.getItem('timerPresets');
+        return savedPresets ? JSON.parse(savedPresets) : TIMER_DEFAULTS;
+    });
+    console.log('selected?', selectedPreset);
+    console.log('timerPresets', timerPresets);
 
     return (
         <div className="main-page">
@@ -64,10 +53,6 @@ export const MainPage = (props: {
                 >
                     Long Break
                 </Button>
-                <CustomizeTimes
-                    presets={timerPresets}
-                    onSave={handleSetCustomTimes}
-                />
                 <StyledCountdown
                     shouldPlaySound={props.shouldPlaySound}
                     timerMinutes={timerPresets[selectedPreset]}

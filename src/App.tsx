@@ -11,10 +11,10 @@ import '@rmwc/tabs/styles';
 
 const HOME_TAB = 0;
 const FAQ_TAB = 1;
-const SETTINGS_TAB = 3;
+const SETTINGS_TAB = 2;
 
 const App = (): React.ReactElement => {
-    const [activeTab, setActiveTab] = React.useState(SETTINGS_TAB);
+    const [activeTab, setActiveTab] = React.useState(HOME_TAB);
     const [timerCompleteSound, setTimerCompleteSound] = React.useState(() => {
         const savedSound = localStorage.getItem('timerCompleteSound');
         return savedSound ? savedSound : sounds.sound1;

@@ -1,9 +1,10 @@
 import React from 'react';
+import useSound from 'use-sound';
 import { IconButton } from '@rmwc/icon-button';
 import { Radio } from '@rmwc/radio';
 import { Switch } from '@rmwc/switch';
-import useSound from 'use-sound';
 
+import { CustomizeTimes } from '../components/CustomizeTimes';
 import { sounds } from '../sounds';
 
 import './Settings.css';
@@ -60,6 +61,7 @@ export const Settings = (props: {
 
     return (
         <div className="settings-page">
+            <CustomizeTimes />
             <label className="timer-fx">Timer FX:</label>
             <Switch
                 checked={props.shouldPlay}

@@ -1,11 +1,10 @@
-.mdc-dialog__surface {
-    min-width: 30rem;
-    width: 60vw;
-    min-height: 34rem;
-    height: fit-content;
+.customize-times {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 16px;
 }
 
-.rmwc-select__default-width {
+.customize-times .rmwc-select__default-width {
     width: 100% !important;
     margin-bottom: 16px;
 }

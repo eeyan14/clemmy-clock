@@ -47,20 +47,21 @@ export const StyledCountdown = ({
         React.useState<CountdownApi | null>();
     const [play, { stop: stopSound }] = useSound(timerCompleteSound);
 
-    const countdownRef = (countdown: Countdown | null) => {
-        if (countdown) {
-            setCountdownApi(countdown.getApi());
-        }
-    };
-
     React.useEffect(() => {
+        console.log('timerMinutes changed to', timerMinutes);
         // if timerMinutes prop changes, stop the clock and reset the countdown
         if (!countdownApi) return;
         const newTimerMilliseconds = timerMinutes * 60 * 1000;
         setTimerMilliseconds(newTimerMilliseconds);
         setCountdownDate(Date.now() + newTimerMilliseconds);
-        handleReset();
-    }, [timerMinutes, countdownApi]);
+        _reset(newTimerMilliseconds);
+    }, [timerMinutes]);
+
+    const countdownRef = (countdown: Countdown | null) => {
+        if (countdown) {
+            setCountdownApi(countdown.getApi());
+        }
+    };
 
     const handleStart = (): void => {
         if (!countdownApi) return;
@@ -76,16 +77,19 @@ export const StyledCountdown = ({
         }
     };
 
-    const handleReset = (): void => {
-        // TODO do we stop the timer when we reset?
+    const _reset = (newTimerMilliseconds: number): void => {
         if (!countdownApi) return;
         countdownApi.stop();
         setCompleted(false);
         setIsRunning(false);
-        setCountdownDate(Date.now() + timerMilliseconds);
+        setCountdownDate(Date.now() + newTimerMilliseconds);
         if (shouldPlaySound) {
             stopSound();
         }
+    };
+
+    const handleReset = (): void => {
+        _reset(Date.now() + timerMilliseconds);
     };
 
     const addFiveMinutes = (): void => {
@@ -105,6 +109,11 @@ export const StyledCountdown = ({
                 />
 
                 <div className="controls">
+                    {isRunning && (
+                        <Button onClick={addFiveMinutes}>
+                            + Add 5 minutes
+                        </Button>
+                    )}
                     <IconButton
                         icon={'play_circle_outline'}
                         onClick={handleStart}
@@ -119,11 +128,6 @@ export const StyledCountdown = ({
 
                 {completed && <p>Time's up!</p>}
             </div>
-            {isRunning && (
-                <Button unelevated onClick={addFiveMinutes}>
-                    + Add 5 minutes
-                </Button>
-            )}
         </>
     );
 };
