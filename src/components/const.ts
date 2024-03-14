@@ -21,3 +21,7 @@ export const TIME_OPTIONS_MINUTES = [
     '55',
     '60',
 ];
+
+export const THEME_OPTIONS = {
+    primary: '#706563',
+};
