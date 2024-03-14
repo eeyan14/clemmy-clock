@@ -17,14 +17,10 @@ const SoundOption = (props: {
     sound: string;
     selected: boolean;
     play: () => void;
-    stop: () => void;
     onChange: (sound: string) => void;
 }) => {
-    const [isPlaying, setIsPlaying] = React.useState(false);
-
     const handleClick = () => {
-        setIsPlaying(!isPlaying);
-        isPlaying ? props.stop() : props.play();
+        props.play();
     };
 
     const handleSelect = () => {
@@ -38,10 +34,7 @@ const SoundOption = (props: {
                 checked={props.selected}
                 onChange={handleSelect}
             />
-            <IconButton
-                icon={isPlaying ? 'volume_off' : 'volume_up'}
-                onClick={handleClick}
-            />
+            <IconButton icon={'volume_up'} onClick={handleClick} />
         </div>
     );
 };
@@ -53,11 +46,11 @@ export const Settings = (props: {
     setShouldPlay: (shouldPlay: boolean) => void;
 }): React.ReactElement => {
     const { sound1, sound2, sound3, sound4, sound5 } = sounds;
-    const [playSound1, { stop: stopSound1 }] = useSound(sound1);
-    const [playSound2, { stop: stopSound2 }] = useSound(sound2);
-    const [playSound3, { stop: stopSound3 }] = useSound(sound3);
-    const [playSound4, { stop: stopSound4 }] = useSound(sound4);
-    const [playSound5, { stop: stopSound5 }] = useSound(sound5);
+    const [playSound1] = useSound(sound1);
+    const [playSound2] = useSound(sound2);
+    const [playSound3] = useSound(sound3);
+    const [playSound4] = useSound(sound4);
+    const [playSound5] = useSound(sound5);
 
     const [devMode, setDevMode] = React.useState(() => {
         const devMode = localStorage.getItem('devMode');
@@ -87,7 +80,6 @@ export const Settings = (props: {
                             sound={sound1}
                             selected={props.selectedSound === sound1}
                             play={playSound1}
-                            stop={stopSound1}
                             onChange={props.setSound}
                         />
                         <SoundOption
@@ -95,7 +87,6 @@ export const Settings = (props: {
                             sound={sound2}
                             selected={props.selectedSound === sound2}
                             play={playSound2}
-                            stop={stopSound2}
                             onChange={props.setSound}
                         />
                         <SoundOption
@@ -103,7 +94,6 @@ export const Settings = (props: {
                             sound={sound3}
                             selected={props.selectedSound === sound3}
                             play={playSound3}
-                            stop={stopSound3}
                             onChange={props.setSound}
                         />
                         <SoundOption
@@ -111,7 +101,6 @@ export const Settings = (props: {
                             sound={sound4}
                             selected={props.selectedSound === sound4}
                             play={playSound4}
-                            stop={stopSound4}
                             onChange={props.setSound}
                         />
                         <SoundOption
@@ -119,7 +108,6 @@ export const Settings = (props: {
                             sound={sound5}
                             selected={props.selectedSound === sound5}
                             play={playSound5}
-                            stop={stopSound5}
                             onChange={props.setSound}
                         />
                     </>
