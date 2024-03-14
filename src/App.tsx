@@ -1,73 +1,39 @@
 import React from 'react';
-import { StyledCountdown } from './components/Countdown';
-import { CustomizeTimes, TimerPresetsType } from './components/CustomizeTimes';
-import { SetIntention } from './components/SetIntention';
+import { MainPage } from './pages/MainPage';
 
-/* third-party library imports */
-import { Button } from '@rmwc/button';
+import { TabBar, Tab } from '@rmwc/tabs';
 
 /* style imports */
 import './App.css';
-import '@rmwc/button/styles';
-import '@rmwc/dialog/styles';
+import '@rmwc/tabs/styles';
 
-const TIMER_DEFAULTS: TimerPresetsType = {
-    pomodoro: 20,
-    shortBreak: 5,
-    longBreak: 15,
-};
+const HOME_TAB = 0;
+const ABOUT_TAB = 1;
+const FAQ_TAB = 2;
+const SETTINGS_TAB = 3;
 
 const App = (): React.ReactElement => {
-    const [selectedPreset, setSelectedPreset] =
-        React.useState<keyof TimerPresetsType>('pomodoro');
-    const [timerPresets, setTimerPresets] = React.useState<TimerPresetsType>(
-        () => {
-            const savedPresets = localStorage.getItem('timerPresets');
-            return savedPresets ? JSON.parse(savedPresets) : TIMER_DEFAULTS;
-        }
-    );
-
-    const handleSetCustomTimes = (presets: TimerPresetsType): void => {
-        // store new presets in localStorage so that it persists across page reloads
-        localStorage.setItem('timerPresets', JSON.stringify(presets));
-        setTimerPresets(presets);
-    };
-
+    const [activeTab, setActiveTab] = React.useState(HOME_TAB);
     return (
         <div className="App">
             <main>
-                <span className="material-icons">person_outline</span>
-                <section>
-                    <Button
-                        raised
-                        className="time-preset"
-                        onClick={() => setSelectedPreset('pomodoro')}
+                <div className="tab-row">
+                    <TabBar
+                        activeTabIndex={activeTab}
+                        onActivate={(e) => setActiveTab(e.detail.index)}
                     >
-                        Pomodoro
-                    </Button>
-                    <Button
-                        raised
-                        className="time-preset"
-                        onClick={() => setSelectedPreset('shortBreak')}
-                    >
-                        Short Break
-                    </Button>
-                    <Button
-                        raised
-                        className="time-preset"
-                        onClick={() => setSelectedPreset('longBreak')}
-                    >
-                        Long Break
-                    </Button>
-                    <CustomizeTimes
-                        presets={timerPresets}
-                        onSave={handleSetCustomTimes}
-                    />
-                    <StyledCountdown
-                        timerMinutes={timerPresets[selectedPreset]}
-                    />
-                    <SetIntention />
-                </section>
+                        <Tab>Home</Tab>
+                        <Tab>About</Tab>
+                        <Tab>FAQ</Tab>
+                        <Tab>Settings</Tab>
+                    </TabBar>
+
+                    <p>Cookie counter: 0</p>
+                </div>
+                {activeTab === HOME_TAB && <MainPage />}
+                {activeTab === ABOUT_TAB && <p>Coming soon</p>}
+                {activeTab === FAQ_TAB && <p>Coming soon</p>}
+                {activeTab === SETTINGS_TAB && <p>Coming soon</p>}
             </main>
         </div>
     );

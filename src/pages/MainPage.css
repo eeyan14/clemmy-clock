@@ -1,0 +1,8 @@
+.main-page {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+button.time-preset {
+    margin: 4px;
+}

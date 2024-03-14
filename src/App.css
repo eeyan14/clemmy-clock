@@ -2,16 +2,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
     width: 100vw;
+    height: 100vh;
 }
 
 main {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
     margin-top: 30vh;
+    width: 50vw;
+    min-width: 768px;
 }
 
-button.time-preset {
-    margin: 4px;
+.tab-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.tab-row .mdc-tab-bar {
+    width: 440px;
 }
