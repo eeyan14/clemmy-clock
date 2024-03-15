@@ -1,0 +1,20 @@
+.faq {
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.faq .question:not(:last-child) {
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #cac4d0;
+}
+
+.faq .question p {
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+.faq .question p span {
+    font-weight: 500;
+
+}
