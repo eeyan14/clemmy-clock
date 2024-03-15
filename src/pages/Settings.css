@@ -1,20 +1,23 @@
 .settings-page {
     padding: 40px;
     box-sizing: border-box;
+    max-height: 70vh;
+    overflow: scroll;
 }
 
 .settings-page section {
     margin-bottom: 40px;
+    box-sizing: border-box;
+}
+
+.settings-page section:not(:last-child) {
+    padding-bottom: 40px;
+    border-bottom: 1px solid #cac4d0;
 }
 
 .settings-page label, .settings-page p {
     margin: 0;
     padding: 0;
-}
-
-.settings-page .divider {
-    border-bottom: 1px solid #cac4d0;
-    margin-bottom: 40px;
 }
 
 .settings-page .toggle-row {
@@ -30,7 +33,7 @@
 }
 
 .settings-page .toggle-row .toggle-text p {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 .settings-page .mdc-switch__track {

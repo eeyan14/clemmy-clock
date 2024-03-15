@@ -16,9 +16,15 @@ main {
     display: flex;
     justify-content: center;
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: 40px;
 }
 
 .tab-row .mdc-tab-bar {
-    width: 350px;
+    width: fit-content;
+}
+
+.tab-row .mdc-tab {
+    font-family: var(--heading-font);
+    font-size: 1.2rem;
+    width: 140px;
 }

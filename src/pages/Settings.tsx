@@ -65,7 +65,6 @@ export const Settings = (props: {
             <section>
                 <CustomizeTimes />
             </section>
-            <div className="divider" />
             <section>
                 <div className="toggle-row">
                     <div className="toggle-text">

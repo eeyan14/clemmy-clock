@@ -1,6 +1,8 @@
 .faq {
     padding: 40px;
     box-sizing: border-box;
+    max-height: 70vh;
+    overflow: scroll;
 }
 
 .faq .question:not(:last-child) {
@@ -12,9 +14,9 @@
 .faq .question p {
     margin: 0;
     margin-bottom: 8px;
+    font-size: 0.9rem;
 }
 
 .faq .question p span {
     font-weight: 500;
-
 }

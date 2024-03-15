@@ -62,6 +62,7 @@
 }
 
 .main-page .countdown-container .timer-string {
+    font-family: var(--heading-font);
     font-size: 5rem;
     margin: 24px 0;
 }
@@ -83,4 +84,8 @@
 
 .main-page .set-intention .mdc-text-field--filled {
     background: transparent !important;
+}
+
+.main-page .set-intention .mdc-text-field__input {
+    font-family: var(--regular-font);
 }
