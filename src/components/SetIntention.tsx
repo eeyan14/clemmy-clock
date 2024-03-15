@@ -20,6 +20,7 @@ export const SetIntention = (): React.ReactElement => {
             <TextField
                 id="intention-input"
                 fullwidth
+                outlined
                 maxLength={140}
                 value={intentionValue}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
