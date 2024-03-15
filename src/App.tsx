@@ -9,6 +9,9 @@ import { THEME_OPTIONS } from './components/const';
 
 /* style imports */
 import './App.css';
+import '@rmwc/button/styles';
+import '@rmwc/card/styles';
+import '@rmwc/icon-button/styles';
 import '@rmwc/tabs/styles';
 import '@rmwc/theme/styles';
 
@@ -17,7 +20,7 @@ const FAQ_TAB = 1;
 const SETTINGS_TAB = 2;
 
 const App = (): React.ReactElement => {
-    const [activeTab, setActiveTab] = React.useState(HOME_TAB);
+    const [activeTab, setActiveTab] = React.useState(SETTINGS_TAB);
     const [timerCompleteSound, setTimerCompleteSound] = React.useState(() => {
         const savedSound = localStorage.getItem('timerCompleteSound');
         return savedSound ? savedSound : sounds.sound1;

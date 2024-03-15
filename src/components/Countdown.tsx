@@ -1,10 +1,8 @@
 import React from 'react';
 import Countdown, { CountdownApi, CountdownTimeDelta } from 'react-countdown';
 import { Button } from '@rmwc/button';
+import { Card } from '@rmwc/card';
 import { IconButton } from '@rmwc/icon-button';
-
-import './Countdown.css';
-import '@rmwc/icon-button/styles';
 
 // renderer() must be a function, not a React component
 const renderer = ({
@@ -65,37 +63,31 @@ export const StyledCountdown = ({
     };
 
     return (
-        <>
-            <div className="countdown-container">
-                {timerCompleted && <p className="timer-string">Time's up!</p>}
-                {!timerCompleted && (
-                    <Countdown
-                        ref={countdownRef}
-                        date={countdownDate}
-                        autoStart={false}
-                        renderer={renderer}
-                        onComplete={handleComplete}
-                    />
-                )}
+        <Card className="countdown-container">
+            {timerCompleted && <p className="timer-string">Time's up!</p>}
+            {!timerCompleted && (
+                <Countdown
+                    ref={countdownRef}
+                    date={countdownDate}
+                    autoStart={false}
+                    renderer={renderer}
+                    onComplete={handleComplete}
+                />
+            )}
 
-                <div className="controls">
-                    {isRunning && (
-                        <Button className="add-time" onClick={onAddFiveMinutes}>
-                            + Add 5 minutes
-                        </Button>
-                    )}
-                    <IconButton
-                        icon={'play_circle_outline'}
-                        onClick={handleStart}
-                        alt="Start"
-                    />
-                    <IconButton
-                        icon={'replay'}
-                        onClick={handleReset}
-                        alt="Reset"
-                    />
-                </div>
+            <div className="controls">
+                {isRunning && (
+                    <Button className="add-time" onClick={onAddFiveMinutes}>
+                        + Add 5 minutes
+                    </Button>
+                )}
+                <IconButton
+                    icon={'play_circle_outline'}
+                    onClick={handleStart}
+                    alt="Start"
+                />
+                <IconButton icon={'replay'} onClick={handleReset} alt="Reset" />
             </div>
-        </>
+        </Card>
     );
 };

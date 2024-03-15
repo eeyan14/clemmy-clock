@@ -2,7 +2,6 @@ import React from 'react';
 import { Select } from '@rmwc/select';
 import { TIMER_DEFAULTS, TIME_OPTIONS_MINUTES } from './const';
 
-import './CustomizeTimes.css';
 import '@rmwc/dialog/styles';
 import '@rmwc/select/styles';
 

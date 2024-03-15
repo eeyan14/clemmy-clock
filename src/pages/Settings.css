@@ -10,3 +10,14 @@
 .settings-page label {
     margin-right: 16px;
 }
+
+.settings-page .customize-times {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 16px;
+}
+
+.settings-page .customize-times .rmwc-select__default-width {
+    width: 100% !important;
+    margin-bottom: 16px;
+}

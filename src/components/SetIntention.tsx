@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextField } from '@rmwc/textfield';
 
-import './SetIntention.css';
 import '@rmwc/textfield/styles';
 
 export const SetIntention = (): React.ReactElement => {

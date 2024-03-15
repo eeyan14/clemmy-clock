@@ -11,7 +11,7 @@ export const PresetSelectors = (props: {
     });
 
     return (
-        <>
+        <div className="preset-selectors">
             <Button
                 raised
                 className="time-preset"
@@ -42,6 +42,6 @@ export const PresetSelectors = (props: {
                     Test (Dev)
                 </Button>
             )}
-        </>
+        </div>
     );
 };
