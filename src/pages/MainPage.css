@@ -17,7 +17,13 @@
     max-width: 200px;
 }
 
-.main-page button.time-preset {
+.main-page .preset-selectors {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.main-page .preset-selectors button.time-preset {
     margin-right: 8px;
 }
 
@@ -35,7 +41,24 @@
 .main-page .countdown-container .controls {
     position: absolute;
     bottom: 8px;
-    right: 8px;
+    right: 16px;
+}
+
+.main-page .countdown-container .controls button {
+    padding: 0;
+    margin-left: 8px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.mdc-icon-button.mdc-ripple-upgraded .mdc-icon-button__ripple::before,
+.mdc-icon-button.mdc-ripple-upgraded .mdc-icon-button__ripple::after {
+    width: fit-content !important;
+    height: fit-content !important;
+}
+
+.main-page .countdown-container .controls button i {
+    font-size: 48px;
 }
 
 .main-page .countdown-container .timer-string {

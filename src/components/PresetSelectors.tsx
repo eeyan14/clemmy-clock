@@ -3,6 +3,7 @@ import { Button } from '@rmwc/button';
 import { TimerPresetsType } from './CustomizeTimes';
 
 export const PresetSelectors = (props: {
+    selectedPreset: keyof TimerPresetsType;
     setSelectedPreset: (preset: keyof TimerPresetsType) => void;
 }): React.ReactElement => {
     const [devMode] = React.useState(() => {
@@ -13,21 +14,24 @@ export const PresetSelectors = (props: {
     return (
         <div className="preset-selectors">
             <Button
-                raised
+                unelevated={props.selectedPreset === 'pomodoro'}
+                outlined={props.selectedPreset !== 'pomodoro'}
                 className="time-preset"
                 onClick={() => props.setSelectedPreset('pomodoro')}
             >
                 Pomodoro
             </Button>
             <Button
-                raised
+                unelevated={props.selectedPreset === 'shortBreak'}
+                outlined={props.selectedPreset !== 'shortBreak'}
                 className="time-preset"
                 onClick={() => props.setSelectedPreset('shortBreak')}
             >
                 Short Break
             </Button>
             <Button
-                raised
+                unelevated={props.selectedPreset === 'longBreak'}
+                outlined={props.selectedPreset !== 'longBreak'}
                 className="time-preset"
                 onClick={() => props.setSelectedPreset('longBreak')}
             >
@@ -35,7 +39,8 @@ export const PresetSelectors = (props: {
             </Button>
             {devMode && (
                 <Button
-                    raised
+                    unelevated={props.selectedPreset === 'devMode'}
+                    outlined={props.selectedPreset !== 'devMode'}
                     className="time-preset"
                     onClick={() => props.setSelectedPreset('devMode')}
                 >

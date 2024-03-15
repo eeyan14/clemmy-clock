@@ -69,7 +69,10 @@ export const MainPage = (props: {
                 <img src={clemmyExplore} />
             </div>
             <section>
-                <PresetSelectors setSelectedPreset={handleSelectPreset} />
+                <PresetSelectors
+                    selectedPreset={selectedPreset}
+                    setSelectedPreset={handleSelectPreset}
+                />
                 <StyledCountdown
                     countdownApi={countdownApi}
                     countdownDate={countdownDate}

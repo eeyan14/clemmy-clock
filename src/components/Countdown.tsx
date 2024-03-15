@@ -39,6 +39,7 @@ export const StyledCountdown = ({
     onSetCountdownApi,
 }: StyledCountdownProps): React.ReactElement => {
     const [isRunning, setIsRunning] = React.useState(false);
+    const [isPaused, setIsPaused] = React.useState(false);
 
     const countdownRef = (countdown: Countdown | null) => {
         if (countdown) {
@@ -50,6 +51,13 @@ export const StyledCountdown = ({
         if (!countdownApi) return;
         setIsRunning(true);
         countdownApi.start();
+        setIsPaused(false);
+    };
+
+    const handlePause = (): void => {
+        if (!countdownApi) return;
+        countdownApi.pause();
+        setIsPaused(true);
     };
 
     const handleComplete = (): void => {
@@ -81,12 +89,21 @@ export const StyledCountdown = ({
                         + Add 5 minutes
                     </Button>
                 )}
-                <IconButton
-                    icon={'play_circle_outline'}
-                    onClick={handleStart}
-                    alt="Start"
-                />
                 <IconButton icon={'replay'} onClick={handleReset} alt="Reset" />
+                {(!isRunning || isPaused) && (
+                    <IconButton
+                        icon={'play_circle'}
+                        onClick={handleStart}
+                        alt="Start"
+                    />
+                )}
+                {isRunning && !isPaused && (
+                    <IconButton
+                        icon={'pause_circle'}
+                        onClick={handlePause}
+                        alt="Pause"
+                    />
+                )}
             </div>
         </Card>
     );
