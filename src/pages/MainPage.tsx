@@ -10,7 +10,6 @@ import { TIMER_DEFAULTS } from '../components/const';
 import clemmyExplore from '../images/clemmy-explore.png';
 
 import './MainPage.css';
-import '@rmwc/button/styles';
 
 const FIVE_MINUTES_MS = 5 * 60 * 1000;
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import useSound from 'use-sound';
+import { Card } from '@rmwc/card';
 import { IconButton } from '@rmwc/icon-button';
 import { Radio } from '@rmwc/radio';
 import { Switch } from '@rmwc/switch';
@@ -8,9 +9,6 @@ import { CustomizeTimes } from '../components/CustomizeTimes';
 import { sounds } from '../sounds';
 
 import './Settings.css';
-import '@rmwc/icon-button/styles';
-import '@rmwc/radio/styles';
-import '@rmwc/switch/styles';
 
 const SoundOption = (props: {
     label: string;
@@ -28,7 +26,7 @@ const SoundOption = (props: {
     };
 
     return (
-        <div className="option-row">
+        <div className="radio-option-row">
             <Radio
                 label={props.label}
                 checked={props.selected}
@@ -63,16 +61,22 @@ export const Settings = (props: {
     };
 
     return (
-        <div className="settings-page">
+        <Card className="settings-page">
             <section>
                 <CustomizeTimes />
             </section>
+            <div className="divider" />
             <section>
-                <label>Timer FX:</label>
-                <Switch
-                    checked={props.shouldPlay}
-                    onClick={() => props.setShouldPlay(!props.shouldPlay)}
-                />
+                <div className="toggle-row">
+                    <div className="toggle-text">
+                        <label>Sound effects:</label>
+                        <p>This sound will play when your timer is up</p>
+                    </div>
+                    <Switch
+                        checked={props.shouldPlay}
+                        onClick={() => props.setShouldPlay(!props.shouldPlay)}
+                    />
+                </div>
                 {props.shouldPlay && (
                     <>
                         <SoundOption
@@ -114,9 +118,13 @@ export const Settings = (props: {
                 )}
             </section>
             <section>
-                <label>Dev mode:</label>
-                <Switch checked={devMode} onClick={handleToggleDevMode} />
+                <div className="toggle-row">
+                    <div className="toggle-text">
+                        <label>Dev mode:</label>
+                    </div>
+                    <Switch checked={devMode} onClick={handleToggleDevMode} />
+                </div>
             </section>
-        </div>
+        </Card>
     );
 };

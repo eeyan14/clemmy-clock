@@ -1,8 +1,6 @@
 import React from 'react';
 import { TextField } from '@rmwc/textfield';
 
-import '@rmwc/textfield/styles';
-
 export const SetIntention = (): React.ReactElement => {
     const [intentionValue, setIntentionValue] = React.useState<string>(() => {
         const savedIntention = localStorage.getItem('intention');

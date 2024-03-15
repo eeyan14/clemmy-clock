@@ -1,5 +1,6 @@
 import React from 'react';
 import { MainPage } from './pages/MainPage';
+import { FAQ } from './pages/FAQ';
 import { Settings } from './pages/Settings';
 
 import { TabBar, Tab } from '@rmwc/tabs';
@@ -12,7 +13,11 @@ import './App.css';
 import '@rmwc/button/styles';
 import '@rmwc/card/styles';
 import '@rmwc/icon-button/styles';
+import '@rmwc/radio/styles';
+import '@rmwc/select/styles';
+import '@rmwc/switch/styles';
 import '@rmwc/tabs/styles';
+import '@rmwc/textfield/styles';
 import '@rmwc/theme/styles';
 
 const HOME_TAB = 0;
@@ -62,7 +67,7 @@ const App = (): React.ReactElement => {
                             shouldPlaySound={shouldPlay}
                         />
                     )}
-                    {activeTab === FAQ_TAB && <p>Coming soon</p>}
+                    {activeTab === FAQ_TAB && <FAQ />}
                     {activeTab === SETTINGS_TAB && (
                         <Settings
                             selectedSound={timerCompleteSound}

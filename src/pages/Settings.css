@@ -1,14 +1,51 @@
-.settings-page section {
-    margin-bottom: 24px;
+.settings-page {
+    padding: 40px;
+    box-sizing: border-box;
 }
 
-.settings-page .option-row {
+.settings-page section {
+    margin-bottom: 40px;
+}
+
+.settings-page label, .settings-page p {
+    margin: 0;
+    padding: 0;
+}
+
+.settings-page .divider {
+    border-bottom: 1px solid #cac4d0;
+    margin-bottom: 40px;
+}
+
+.settings-page .toggle-row {
+    display: flex;
+}
+
+.settings-page .toggle-row .toggle-text {
+    margin-right: 28px;
+}
+
+.settings-page .toggle-row .toggle-text label {
+    font-weight: 500;
+}
+
+.settings-page .toggle-row .toggle-text p {
+    font-size: 0.8rem;
+}
+
+.settings-page .mdc-switch__track {
+    width: 40px !important;
+    height: 20px !important;
+    border-radius: 14px !important;
+}
+
+.settings-page .radio-option-row {
     display: flex;
     align-items: center;
 }
 
-.settings-page label {
-    margin-right: 16px;
+.settings-page .radio-option-row button {
+    padding-left: 0;
 }
 
 .settings-page .customize-times {
@@ -19,5 +56,5 @@
 
 .settings-page .customize-times .rmwc-select__default-width {
     width: 100% !important;
-    margin-bottom: 16px;
+    margin-bottom: 0;
 }

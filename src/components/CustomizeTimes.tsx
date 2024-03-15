@@ -2,9 +2,6 @@ import React from 'react';
 import { Select } from '@rmwc/select';
 import { TIMER_DEFAULTS, TIME_OPTIONS_MINUTES } from './const';
 
-import '@rmwc/dialog/styles';
-import '@rmwc/select/styles';
-
 export type TimerPresetsType = {
     pomodoro: number;
     shortBreak: number;
@@ -32,7 +29,7 @@ export const CustomizeTimes = (): React.ReactElement => {
     return (
         <div className="customize-times">
             <Select
-                enhanced
+                outlined
                 label={'Pomodoro'}
                 options={TIME_OPTIONS_MINUTES}
                 value={timerPresets.pomodoro.toString()}
@@ -41,7 +38,7 @@ export const CustomizeTimes = (): React.ReactElement => {
                 }
             />
             <Select
-                enhanced
+                outlined
                 label={'Short Break'}
                 options={TIME_OPTIONS_MINUTES}
                 value={timerPresets.shortBreak.toString()}
@@ -50,7 +47,7 @@ export const CustomizeTimes = (): React.ReactElement => {
                 }
             />
             <Select
-                enhanced
+                outlined
                 label={'Long Break'}
                 options={TIME_OPTIONS_MINUTES}
                 value={timerPresets.longBreak.toString()}
