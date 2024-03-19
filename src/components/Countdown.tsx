@@ -1,6 +1,5 @@
 import React from 'react';
 import Countdown, { CountdownApi, CountdownTimeDelta } from 'react-countdown';
-import { Button } from '@rmwc/button';
 import { Card } from '@rmwc/card';
 import { IconButton } from '@rmwc/icon-button';
 
@@ -27,6 +26,7 @@ type StyledCountdownProps = {
     timerRunning: boolean;
     onPause: (paused: boolean) => void;
     onRunning: (running: boolean) => void;
+    onStart: () => void;
     onComplete: () => void;
     onReset: () => void;
     onSetCountdownApi: (api: CountdownApi) => void;
@@ -40,6 +40,7 @@ export const StyledCountdown = ({
     timerRunning,
     onPause,
     onRunning,
+    onStart,
     onComplete,
     onReset,
     onSetCountdownApi,
@@ -48,13 +49,6 @@ export const StyledCountdown = ({
         if (countdown) {
             onSetCountdownApi(countdown.getApi());
         }
-    };
-
-    const handleStart = (): void => {
-        if (!countdownApi) return;
-        onRunning(true);
-        countdownApi.start();
-        onPause(false);
     };
 
     const handlePause = (): void => {
@@ -91,8 +85,9 @@ export const StyledCountdown = ({
                 {(!timerRunning || timerPaused) && (
                     <IconButton
                         icon={'play_circle'}
-                        onClick={handleStart}
+                        onClick={onStart}
                         alt="Start"
+                        disabled={timerCompleted}
                     />
                 )}
                 {timerRunning && !timerPaused && (

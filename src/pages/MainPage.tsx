@@ -8,6 +8,8 @@ import { SetIntention } from '../components/SetIntention';
 import { TIMER_DEFAULTS } from '../components/const';
 
 import clemmyExplore from '../images/clemmy-explore.png';
+import clemmyWork from '../images/clemmy-work.gif';
+import clemmyBreak from '../images/clemmy-break.gif';
 
 import './MainPage.css';
 
@@ -39,21 +41,24 @@ export const MainPage = (props: {
 
     const [play] = useSound(props.timerCompleteSound);
 
+    const _reset = () => {
+        countdownApi?.stop();
+        setCountdownDate(Date.now() + timerPresets[selectedPreset] * 60 * 1000);
+        setTimerPaused(false);
+        setTimerRunning(false);
+    };
+
     const handleComplete = () => {
         if (props.shouldPlaySound) {
             play();
         }
+        _reset();
         setTimerCompleted(true);
     };
 
     const handleResetTimer = () => {
-        if (!countdownApi) return;
-        countdownApi.stop();
-        const timerMinutes = timerPresets[selectedPreset];
-        setCountdownDate(Date.now() + timerMinutes * 60 * 1000);
+        _reset();
         setTimerCompleted(false);
-        setTimerPaused(false);
-        setTimerRunning(false);
     };
 
     const handleSelectPreset = (preset: keyof TimerPresetsType) => {
@@ -67,10 +72,25 @@ export const MainPage = (props: {
         setTimerRunning(false);
     };
 
+    const handleStart = () => {
+        setTimerCompleted(false);
+        setTimerPaused(false);
+        setTimerRunning(true);
+        countdownApi?.start();
+    };
+
+    let iconSrc = clemmyExplore;
+    if (timerRunning && selectedPreset === 'pomodoro') {
+        iconSrc = clemmyWork;
+    }
+    if (timerRunning && selectedPreset !== 'pomodoro') {
+        iconSrc = clemmyBreak;
+    }
+
     return (
         <div className="main-page">
             <div className="clemmy-icon-container">
-                <img src={clemmyExplore} />
+                <img src={iconSrc} />
             </div>
             <section>
                 <PresetSelectors
@@ -85,6 +105,7 @@ export const MainPage = (props: {
                     timerRunning={timerRunning}
                     onPause={setTimerPaused}
                     onRunning={setTimerRunning}
+                    onStart={handleStart}
                     onComplete={handleComplete}
                     onReset={handleResetTimer}
                     onSetCountdownApi={setCountdownApi}
