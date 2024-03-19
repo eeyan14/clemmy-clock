@@ -23,9 +23,12 @@ type StyledCountdownProps = {
     countdownApi: CountdownApi | null;
     countdownDate: number;
     timerCompleted: boolean;
+    timerPaused: boolean;
+    timerRunning: boolean;
+    onPause: (paused: boolean) => void;
+    onRunning: (running: boolean) => void;
     onComplete: () => void;
     onReset: () => void;
-    onAddFiveMinutes: () => void;
     onSetCountdownApi: (api: CountdownApi) => void;
 };
 
@@ -33,14 +36,14 @@ export const StyledCountdown = ({
     countdownApi,
     countdownDate,
     timerCompleted,
+    timerPaused,
+    timerRunning,
+    onPause,
+    onRunning,
     onComplete,
     onReset,
-    onAddFiveMinutes,
     onSetCountdownApi,
 }: StyledCountdownProps): React.ReactElement => {
-    const [isRunning, setIsRunning] = React.useState(false);
-    const [isPaused, setIsPaused] = React.useState(false);
-
     const countdownRef = (countdown: Countdown | null) => {
         if (countdown) {
             onSetCountdownApi(countdown.getApi());
@@ -49,24 +52,24 @@ export const StyledCountdown = ({
 
     const handleStart = (): void => {
         if (!countdownApi) return;
-        setIsRunning(true);
+        onRunning(true);
         countdownApi.start();
-        setIsPaused(false);
+        onPause(false);
     };
 
     const handlePause = (): void => {
         if (!countdownApi) return;
         countdownApi.pause();
-        setIsPaused(true);
+        onPause(true);
     };
 
     const handleComplete = (): void => {
-        setIsRunning(false);
+        onRunning(false);
         onComplete();
     };
 
     const handleReset = (): void => {
-        setIsRunning(false);
+        onRunning(false);
         onReset();
     };
 
@@ -84,20 +87,15 @@ export const StyledCountdown = ({
             )}
 
             <div className="controls">
-                {isRunning && (
-                    <Button className="add-time" onClick={onAddFiveMinutes}>
-                        + Add 5 minutes
-                    </Button>
-                )}
                 <IconButton icon={'replay'} onClick={handleReset} alt="Reset" />
-                {(!isRunning || isPaused) && (
+                {(!timerRunning || timerPaused) && (
                     <IconButton
                         icon={'play_circle'}
                         onClick={handleStart}
                         alt="Start"
                     />
                 )}
-                {isRunning && !isPaused && (
+                {timerRunning && !timerPaused && (
                     <IconButton
                         icon={'pause_circle'}
                         onClick={handlePause}

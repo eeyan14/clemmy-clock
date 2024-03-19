@@ -11,8 +11,6 @@ import clemmyExplore from '../images/clemmy-explore.png';
 
 import './MainPage.css';
 
-const FIVE_MINUTES_MS = 5 * 60 * 1000;
-
 export const MainPage = (props: {
     shouldPlaySound: boolean;
     timerCompleteSound: string;
@@ -25,6 +23,11 @@ export const MainPage = (props: {
     });
 
     const [timerCompleted, setTimerCompleted] = React.useState(false);
+    // timer is paused if user has clicked "play" then clicked "pause"
+    const [timerPaused, setTimerPaused] = React.useState(false);
+    // timer is running if user has clicked "play" and timer has not run out;
+    // timerRunning will still be true if timerPaused is true but timerCompleted is false
+    const [timerRunning, setTimerRunning] = React.useState(false);
     const [countdownApi, setCountdownApi] = React.useState<CountdownApi | null>(
         null
     );
@@ -49,6 +52,8 @@ export const MainPage = (props: {
         const timerMinutes = timerPresets[selectedPreset];
         setCountdownDate(Date.now() + timerMinutes * 60 * 1000);
         setTimerCompleted(false);
+        setTimerPaused(false);
+        setTimerRunning(false);
     };
 
     const handleSelectPreset = (preset: keyof TimerPresetsType) => {
@@ -57,10 +62,9 @@ export const MainPage = (props: {
         if (countdownApi) {
             countdownApi.stop();
         }
-    };
-
-    const handleAddFiveMinutes = () => {
-        setCountdownDate(countdownDate + FIVE_MINUTES_MS);
+        setTimerCompleted(false);
+        setTimerPaused(false);
+        setTimerRunning(false);
     };
 
     return (
@@ -77,9 +81,12 @@ export const MainPage = (props: {
                     countdownApi={countdownApi}
                     countdownDate={countdownDate}
                     timerCompleted={timerCompleted}
+                    timerPaused={timerPaused}
+                    timerRunning={timerRunning}
+                    onPause={setTimerPaused}
+                    onRunning={setTimerRunning}
                     onComplete={handleComplete}
                     onReset={handleResetTimer}
-                    onAddFiveMinutes={handleAddFiveMinutes}
                     onSetCountdownApi={setCountdownApi}
                 />
                 <SetIntention />
